@@ -1,5 +1,7 @@
 package tw.brad.stest5.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,13 +13,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
 import tw.brad.stest5.model.Member;
+import tw.brad.stest5.model.Products;
 import tw.brad.stest5.service.MemberService;
+import tw.brad.stest5.service.ProductsService;
 
 // @RequestMapping("/")
 @Controller
 public class LoginController {
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private ProductsService productsService;
+	
 	
 	@RequestMapping("/register")
 	public String reg(Model model) {
@@ -61,6 +69,15 @@ public class LoginController {
 		}
 
 		model.addAttribute("member", member);
+		
+		
+		List<Products> list = productsService.getProducts();
+//		for (Products product:list) {
+//			System.out.printf("%s:%s:%s\n", product.getProductname(),
+//					product.getUnitprice(), 
+//					product.getCategories().getCategoryname());
+//		} 
+		model.addAttribute("products", list);
 		
 		return "main";
 	}
