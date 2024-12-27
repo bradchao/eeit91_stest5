@@ -1,5 +1,6 @@
 package tw.brad.stest5.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,11 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import tw.brad.stest5.model.Member;
+import tw.brad.stest5.service.MemberService;
 
 // @RequestMapping("/")
 @Controller
 public class LoginController {
-
+	@Autowired
+	private MemberService memberService;
+	
 	@RequestMapping("/register")
 	public String reg(Model model) {
 		Member member = new Member();
@@ -27,9 +31,7 @@ public class LoginController {
 			return "register";
 		}
 		
-		System.out.println(member.getAccount());
-		System.out.println(member.getPasswd());
-		System.out.println(member.getRealname());
+		memberService.addMember(member);
 		
 		return "login";
 	}
