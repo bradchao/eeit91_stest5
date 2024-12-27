@@ -1,5 +1,7 @@
 package tw.brad.stest5.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,4 +18,17 @@ public class MemberService {
 		member.setPasswd(BCrypt.hashpw(member.getPasswd(), BCrypt.gensalt()));
 		memberRepository.save(member);
 	}
+	
+	public Member loginMember(Member loginMember) {
+		Optional<Member> opt = memberRepository.findByAccount(loginMember.getAccount());
+		Member member = opt.get();
+		if (member != null) {
+			if (!BCrypt.checkpw(loginMember.getPasswd(), member.getPasswd())) {
+				member = null;
+			}
+		}
+		return member;
+	}
+	
+	
 }
