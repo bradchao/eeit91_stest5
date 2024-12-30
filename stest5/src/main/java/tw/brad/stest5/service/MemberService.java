@@ -1,5 +1,6 @@
 package tw.brad.stest5.service;
 
+import java.util.Base64;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ public class MemberService {
 	
 	public void addMember(Member member) {
 		member.setPasswd(BCrypt.hashpw(member.getPasswd(), BCrypt.gensalt()));
-		memberRepository.save(member);
+		Member saveMember = memberRepository.save(member);
+		System.out.println("debug1:" + member.getIcon().length);
+		System.out.println("debug2:" + member.getIconBase64());
 	}
 	
 	public Member loginMember(Member loginMember) {
@@ -25,6 +28,8 @@ public class MemberService {
 		if (member != null) {
 			if (!BCrypt.checkpw(loginMember.getPasswd(), member.getPasswd())) {
 				member = null;
+			}else {
+				member.setIconBase64(Base64.getEncoder().encodeToString(member.getIcon()));
 			}
 		}
 		return member;

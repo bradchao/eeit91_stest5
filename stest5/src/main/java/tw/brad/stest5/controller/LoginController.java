@@ -65,6 +65,7 @@ public class LoginController {
 		if (member == null){
 			return "login";
 		}else {
+			System.out.println("debug4:" + member.getIconBase64());
 			session.setAttribute("member", member);
 		}
 

@@ -4,7 +4,8 @@
 <h2>Register Page</h2>
 <hr />
 
-<form th:action="@{/reg_submit}" th:object="${member}" method="post">
+<form th:action="@{/reg_submit}" th:object="${member}" 
+		method="post" enctype="multipart/form-data">
 	Account: 
 	<input id="account" th:field="*{account}" /><br />
 	
@@ -13,6 +14,9 @@
 	
 	Real Name: 
 	<input id="realname" th:field="*{realname}" /><br />
+	
+	Icon:
+	<input type="file" th:field="*{iconFile}" /><br />
 	
 	<button type="submit">Register</button>
 </form>
