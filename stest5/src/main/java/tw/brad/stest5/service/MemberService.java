@@ -24,15 +24,19 @@ public class MemberService {
 	
 	public Member loginMember(Member loginMember) {
 		Optional<Member> opt = memberRepository.findByAccount(loginMember.getAccount());
-		Member member = opt.get();
-		if (member != null) {
-			if (!BCrypt.checkpw(loginMember.getPasswd(), member.getPasswd())) {
-				member = null;
-			}else {
-				member.setIconBase64(Base64.getEncoder().encodeToString(member.getIcon()));
+		try {
+			Member member = opt.get();
+			if (member != null) {
+				if (!BCrypt.checkpw(loginMember.getPasswd(), member.getPasswd())) {
+					member = null;
+				}else {
+					member.setIconBase64(Base64.getEncoder().encodeToString(member.getIcon()));
+				}
 			}
+			return member;
+		}catch(Exception e) {
+			return null;
 		}
-		return member;
 	}
 	
 	

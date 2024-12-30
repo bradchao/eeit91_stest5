@@ -2,6 +2,8 @@ package tw.brad.stest5.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +28,17 @@ public class LoginController {
 	@Autowired
 	private ProductsService productsService;
 	
+	private static Logger log = LoggerFactory.getLogger(LoginController.class);
+	
 	
 	@RequestMapping("/register")
 	public String reg(Model model) {
+		log.debug("debug");
+		log.info("mes......");
+		log.warn("warnning....");
+		log.error("err");
+		
+		
 		Member member = new Member();
 		model.addAttribute("member", member);
 		return "register";
@@ -41,6 +51,8 @@ public class LoginController {
 			System.out.println(result.getAllErrors().toString());
 			return "register";
 		}
+		
+		log.info("register...{}....{}", member.getAccount(), member.getPasswd());
 		
 		memberService.addMember(member);
 		
